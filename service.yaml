@@ -1,0 +1,93 @@
+version: "3.7"
+configs:
+  create_repl_user:
+    file: ./sql/create_repl_user.sql
+  create_skysql_user:
+    file: ./sql/create_skysql_user.sql
+  server_config_1:
+    file: ./cnf/server1.cnf
+  server_config_2:
+    file: ./cnf/server2.cnf
+  server_config_3:
+    file: ./cnf/server3.cnf
+  server_config_4:
+    file: ./cnf/server4.cnf
+  maxscale_config_000:
+    file: ./cnf/maxscale_config.cnf
+services:
+  backend_one:
+    image: mariadb/server:10.3
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1024MB
+      restart_policy:
+        condition: "none"
+    configs:
+      - source: create_repl_user
+        target: /docker-entrypoint-initdb.d/create_repl_user.sql
+      - source: create_skysql_user
+        target: /docker-entrypoint-initdb.d/create_skysql_user.sql
+      - source: server_config_1
+        target: /etc/mysql/my.cnf
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+  backend_two:
+    image: mariadb/server:10.3
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1024MB
+      restart_policy:
+        condition: "none"
+    configs:
+      - source: create_repl_user
+        target: /docker-entrypoint-initdb.d/create_repl_user.sql
+      - source: create_skysql_user
+        target: /docker-entrypoint-initdb.d/create_skysql_user.sql
+      - source: server_config_2
+        target: /etc/mysql/my.cnf
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+  backend_three:
+    image: mariadb/server:10.3
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1024MB
+      restart_policy:
+        condition: "none"
+    configs:
+      - source: create_repl_user
+        target: /docker-entrypoint-initdb.d/create_repl_user.sql
+      - source: create_skysql_user
+        target: /docker-entrypoint-initdb.d/create_skysql_user.sql
+      - source: server_config_3
+        target: /etc/mysql/my.cnf
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+  backend_four:
+    image: mariadb/server:10.3
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1024MB
+      restart_policy:
+        condition: "none"
+    configs:
+      - source: create_repl_user
+        target: /docker-entrypoint-initdb.d/create_repl_user.sql
+      - source: create_skysql_user
+        target: /docker-entrypoint-initdb.d/create_skysql_user.sql
+      - source: server_config_4
+        target: /etc/mysql/my.cnf
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
